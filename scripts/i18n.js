@@ -23,7 +23,7 @@ export function setLanguage(lang, isDaily){
     if (lang == "en" | lang == "") {
         lang_map = ""
         rev_map = ""
-        document.getElementById("guess").placeholder = "Who's that Pokémon?"
+        document.getElementById("guess").placeholder = "Who's that Champion?"
         handleLoad(isDaily)
     } else {
         $.getJSON( "data/"+lang+".json", function( data ) {

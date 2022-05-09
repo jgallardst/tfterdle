@@ -12,7 +12,7 @@ body {
 
 body.daily {
     color: rgb(255 232 232);
-    background-color: rgb(78, 0, 0);
+    background-color: rgba(4,44,103,255);
 }
 
 a {
@@ -93,6 +93,12 @@ a {
 .emoji {
     font-size: 50px;
     margin: 3px;
+}
+
+.mainimg {
+    width:120px; /* you can use % */
+    height: auto;
+    margin-top: 10px;
 }
 
 .row {

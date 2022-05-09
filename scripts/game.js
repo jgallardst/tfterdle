@@ -141,7 +141,7 @@ export function newGame(isDaily) {
     elem ? elem.remove() : false
   }
 
-  let types2 = ["Normal", "Fire", "Water", "Grass", "Electric", "Ice", "Fighting", "Poison", "Ground", "Flying", "Psychic", "Bug", "Rock", "Ghost", "Dark", "Dragon", "Steel", "Fairy", ""]
+  let types2 = ["Set1", "Set2", "Set3", "Set35", "Set4", "Set45", "Set5", "Set55", "Set6", "Set65"]
 
   for (let i = 0; i < types2.length; i++) {
     let type = types2[i];
