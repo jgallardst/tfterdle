@@ -76,14 +76,15 @@ export function handleGuess(daily) {
   let t1 = guess[1] == secret[1] ? "1" : guess[1] == secret[2] ? '4' : guess[1] == secret[3] ? '4' : '5'
   let t2 = guess[2] == secret[2] ? "1" : guess[2] == secret[1] ? '4' : guess[2] == secret[3] ? '4' : '5'
   let t3 = guess[3] == secret[3] ? "1" : guess[3] == secret[1] ? '4' : guess[3] == secret[2] ? '4' : '5'
+  let cost = guess[4] == secret[4] ? "1" : guess[4] < secret[4] ? '2' : '3'
 
-  let pokeinfo = "<b>Gen:</b> " + guess[0] + "<br><b>Trait 1:</b> " + guess[1] +
+  let pokeinfo = "<b>Gen:</b> " + guess[0] + "<br><b>Cost:</b> " + guess[4] +  "<br><b>Trait 1:</b> " + guess[1] +
     "<br><b>Trait 2:</b> " + (guess[2] == "" ? "None" : guess[2]) +
-    "<br><b>Trait 3:</b> " + guess[3]
+    "<br><b>Trait 3:</b> " + (guess[3] == "" ? "None" : guess[3])
 
   let guess_info = {
-    "hints": [imgs[gen], imgs[t1], imgs[t2], imgs[t3]],
-    "name": getIdFromPokemon(guess_name), "info": pokeinfo, "mosaic": gen + t1 + t2 + t3
+    "hints": [imgs[gen], imgs[cost], imgs[t1], imgs[t2], imgs[t3]],
+    "name": getIdFromPokemon(guess_name), "info": pokeinfo, "mosaic": gen + cost + t1 + t2 + t3
   }
 
   let guesses = getCookie("guessesv2", daily)
@@ -116,7 +117,7 @@ export function newGame(isDaily) {
   let filterRes = isDaily ? [getIdFromPokemon(window.dailypoke), pokedex] : getPokemon()
   setCookie('guessesv2', "", 30, isDaily)
   setCookie('secret_poke', filterRes[0], 30, isDaily)
-  setCookie('t_attempts', '6', 30, isDaily)
+  setCookie('t_attempts', '8', 30, isDaily)
 
   autocomplete(document.getElementById("guess"), filterRes[1]);
 

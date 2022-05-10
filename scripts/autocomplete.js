@@ -48,6 +48,8 @@ export function autocomplete(inp, arr) {
                         let t2 = t1 == "" ? "-" : t1
                         t2 = t2 == "none" ? "" : t2
                         fvalues.push(arr[i][1][1].toLowerCase() != t1 && arr[i][1][2].toLowerCase() != t2 ? 1 : 0)
+                    } else if (filter.includes("cost:")) {
+                        fvalues.push(arr[i][1][4].toString() == filter.split(":")[1] ? 1 : 0)
                     }
                 }
                 matches = fvalues.length > 0 ? Math.min(...fvalues) : 0
@@ -67,7 +69,8 @@ export function autocomplete(inp, arr) {
                     let trait2 = arr[i][1][2]
                     let trait3 = arr[i][1][3]
                     let set = arr[i][1][0]
-                    b.innerHTML += "<br><span class=\"dropinfo\"> Set " + set + ", " + trait1 + "," + (trait2 == "" ? "None" : trait2) + "," + (trait3 == "" ? "None" : trait3) + "</span>";
+                    let cost = arr[i][1][4]
+                    b.innerHTML += "<br><span class=\"dropinfo\"> Set " + set + "," + "Cost " + cost + "," +  trait1 + "," + (trait2 == "" ? "None" : trait2) + "," + (trait3 == "" ? "None" : trait3) + "</span>";
                 }
                 let value = pkmnname.replace("'", "&#39;")
                 b.innerHTML += "<input type='hidden' value='" + value + "'>";
