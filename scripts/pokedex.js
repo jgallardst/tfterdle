@@ -8,12 +8,10 @@ export function getIdFromPokemon(pokemon) {
     return Object.keys(pokedex).indexOf(pokemon);
 }
 
-export function getPokemon(mingen, maxgen) {
+export function getPokemon() {
     let filtered = []
     for (const [name, info] of Object.entries(pokedex)) {
-        if (info[0] >= mingen & info[0] <= maxgen) {
             filtered.push([name, info])
-        }
     }
     let chosen = filtered[filtered.length * Math.random() | 0][0];
     return [getIdFromPokemon(chosen), filtered]

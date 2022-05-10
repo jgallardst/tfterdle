@@ -16,8 +16,8 @@ export function autocomplete(inp, arr) {
         a.setAttribute("class", "autocomplete-items");
         this.parentNode.appendChild(a);
         for (i = 0; i < arr.length; i++) {
-            let pkmnname = getPkmnName(arr[i][0])
 
+            let pkmnname = getPkmnName(arr[i][0])
             let matches = pkmnname.substr(0, val.length).toUpperCase() == val.toUpperCase() ? 1 : 0
             let words = pkmnname.split(" ")
             let highlight = true
@@ -30,54 +30,24 @@ export function autocomplete(inp, arr) {
                 let fvalues = []
                 for (let f = 0; f < filters.length; f++) {
                     let filter = filters[f].toLowerCase()
-                    if (filter.includes("gen:")) {
+                    if (filter.includes("set:")) {
                         fvalues.push(arr[i][1][0].toString() == filter.split(":")[1] ? 1 : 0)
-                    } else if (filter.includes("gen!")) {
+                    } else if (filter.includes("set!")) {
                         fvalues.push(arr[i][1][0].toString() != filter.split("!")[1] ? 1 : 0)
-                    } else if (filter.includes("gen>")) {
+                    } else if (filter.includes("set>")) {
                         fvalues.push(arr[i][1][0] > parseInt(filter.split(">")[1]) ? 1 : 0)
-                    } else if (filter.includes("gen<")) {
+                    } else if (filter.includes("set<")) {
                         fvalues.push(arr[i][1][0] < parseInt(filter.split("<")[1]) ? 1 : 0)
-                    } else if (filter.includes("type1:")) {
-                        fvalues.push(arr[i][1][1].toLowerCase() == filter.split(":")[1].toLowerCase() ? 1 : 0)
-                    } else if (filter.includes("type1!")) {
-                        fvalues.push(arr[i][1][1].toLowerCase() != filter.split("!")[1].toLowerCase() ? 1 : 0)
-                    } else if (filter.includes("type2:")) {
-                        let t2 = filter.split(":")[1].toLowerCase()
-                        t2 = t2 == "" ? "-" : t2
-                        t2 = t2 == "none" ? "" : t2
-                        fvalues.push(arr[i][1][2].toLowerCase() == t2 ? 1 : 0)
-                    } else if (filter.includes("type2!")) {
-                        let t2 = filter.split("!")[1].toLowerCase()
-                        t2 = t2 == "" ? "-" : t2
-                        t2 = t2 == "none" ? "" : t2
-                        fvalues.push(arr[i][1][2].toLowerCase() != t2 ? 1 : 0)
-                    } else if (filter.includes("type:")) {
+                    } else if (filter.includes("trait:")) {
                         let t1 = filter.split(":")[1].toLowerCase()
                         let t2 = t1 == "" ? "-" : t1
                         t2 = t2 == "none" ? "" : t2
                         fvalues.push(arr[i][1][1].toLowerCase() == t1 || arr[i][1][2].toLowerCase() == t2 ? 1 : 0)
-                    } else if (filter.includes("type!")) {
+                    } else if (filter.includes("trait!")) {
                         let t1 = filter.split("!")[1].toLowerCase()
                         let t2 = t1 == "" ? "-" : t1
                         t2 = t2 == "none" ? "" : t2
                         fvalues.push(arr[i][1][1].toLowerCase() != t1 && arr[i][1][2].toLowerCase() != t2 ? 1 : 0)
-                    } else if (filter.includes("height:")) {
-                        fvalues.push(arr[i][1][3].toString() == filter.split(":")[1] ? 1 : 0)
-                    } else if (filter.includes("height!")) {
-                        fvalues.push(arr[i][1][3].toString() != filter.split("!")[1] ? 1 : 0)
-                    } else if (filter.includes("height>")) {
-                        fvalues.push(arr[i][1][3] > parseFloat(filter.split(">")[1]) ? 1 : 0)
-                    } else if (filter.includes("height<")) {
-                        fvalues.push(arr[i][1][3] < parseFloat(filter.split("<")[1]) ? 1 : 0)
-                    } else if (filter.includes("weight:")) {
-                        fvalues.push(arr[i][1][4].toString() == filter.split(":")[1] ? 1 : 0)
-                    } else if (filter.includes("weight!")) {
-                        fvalues.push(arr[i][1][4].toString() != filter.split("!")[1] ? 1 : 0)
-                    } else if (filter.includes("weight>")) {
-                        fvalues.push(arr[i][1][4] > parseFloat(filter.split(">")[1]) ? 1 : 0)
-                    } else if (filter.includes("weight<")) {
-                        fvalues.push(arr[i][1][4] < parseFloat(filter.split("<")[1]) ? 1 : 0)
                     }
                 }
                 matches = fvalues.length > 0 ? Math.min(...fvalues) : 0
@@ -93,12 +63,11 @@ export function autocomplete(inp, arr) {
                     b.innerHTML = pkmnname
                 }
                 if (hintsenabled == "1" | hintsenabled == "") {
-                    let type1 = arr[i][1][1]
-                    let type2 = arr[i][1][2]
-                    let h = arr[i][1][3]
-                    let w = arr[i][1][4]
-                    let gen = arr[i][1][0]
-                    b.innerHTML += "<br><span class=\"dropinfo\"> Gen " + gen + ", " + type1 + "/" + (type2 == "" ? "None" : type2) + ", " + h + "m, " + w + "kg" + "</span>";
+                    let trait1 = arr[i][1][1]
+                    let trait2 = arr[i][1][2]
+                    let trait3 = arr[i][1][3]
+                    let set = arr[i][1][0]
+                    b.innerHTML += "<br><span class=\"dropinfo\"> Set " + set + ", " + trait1 + "," + (trait2 == "" ? "None" : trait2) + "," + (trait3 == "" ? "None" : trait3) + "</span>";
                 }
                 let value = pkmnname.replace("'", "&#39;")
                 b.innerHTML += "<input type='hidden' value='" + value + "'>";

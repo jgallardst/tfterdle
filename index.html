@@ -41,7 +41,7 @@
 </div>
 <br>
 
-<p id="error" style="display: none;">Pokémon not found!</p>
+<p id="error" style="display: none;">Champion not found!</p>
 <form id="guessform" autocomplete="off" onsubmit="return false;">
   <div class="autocomplete">
     <input class="guess_input" id="guess" type="text" name="guess" placeholder="Who's that Champion?">
@@ -54,25 +54,9 @@
   <span id="won" style="display: none;">You won!</span>
   <span id="lost" style="display: none;">You lost!</span>
   <span>The secret Champion was <b><span id="secretpoke"></span></b>!</span><br>
-  <a id="share_lnk" class="togglec" href="#">📄 Share</a>
-  <a id="share_with_names_lnk" class="togglec" href="#">👀 Share w/names</a><br>
+  <a id="share_lnk" class="togglec" href="#">📄 Share</a><br>
   <span id="streak"></span>
 </div>
-
-<br>
-<div id="type_Set1" class="type-block" style="background-color: rgba(177, 177, 177);">Set 1</div>
-<div id="type_Set2" class="type-block" style="background-color: rgb(255, 97, 6);">Set 2</div>
-<div id="type_Set3" class="type-block" style="background-color: rgb(57, 159, 255);">Set 3</div>
-<div id="type_Set35" class="type-block" style="background-color: rgb(32, 255, 11);">Set 3.5</div>
-<div id="type_Set4" class="type-block" style="background-color: rgb(192, 196, 0);">Set 4</div>
-<div id="type_Set45" class="type-block" style="background-color: rgb(80, 243, 255);">Set 4.5</div>
-<br>
-<div id="type_Set5" class="type-block" style="background-color: rgba(230, 0, 0);">Set 5</div>
-<div id="type_Set55" class="type-block" style="background-color: rgb(143, 0, 187);">Set 5.5</div>
-<div id="type_Set6" class="type-block" style="background-color: rgb(170, 130, 0);">Set 6</div>
-<div id="type_Set65" class="type-block" style="background-color: rgb(235, 81, 255);">Set 6.5</div>
-<br><br>
-
 
 <br>Issues? Clear your cache!
 <script type="module">
@@ -83,14 +67,12 @@
   var day = 0
   window.dailypoke = ""
   document.addEventListener('DOMContentLoaded', (event) => {
-    $.getJSON("data/pokedex.json", function (data1) {
+    $.getJSON("data/champions.json", function (data1) {
       pokedex = data1
       $.getJSON("data/daily.json", function (data2) {
         let date = new Date().toISOString().split("T")[0]
-        day = parseInt(data2[date][0])
-        window.dailypoke = data2[date][1]
-        let lang = getCookie('lang', false)
-        setLanguage(lang, true)
+        window.dailypoke = data2[date]
+        setLanguage("en", true)
       });
     })
   });
@@ -104,22 +86,6 @@
 
   document.querySelector('#share_lnk').addEventListener('click', () => {
     copyCurrentDay(day, false)
-  });
-  document.querySelector('#share_with_names_lnk').addEventListener('click', () => {
-    copyCurrentDay(day, true)
-  });
-
-  document.querySelector('#lang_en_lnk').addEventListener('click', () => {
-    setLanguage('en', true)
-  });
-  document.querySelector('#lang_ko_lnk').addEventListener('click', () => {
-    setLanguage('ko', true)
-  });
-  document.querySelector('#lang_ja_lnk').addEventListener('click', () => {
-    setLanguage('ja', true)
-  });
-  document.querySelector('#lang_fr_lnk').addEventListener('click', () => {
-    setLanguage('fr', true)
   });
 </script>
 

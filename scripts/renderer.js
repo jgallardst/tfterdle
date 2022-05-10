@@ -1,41 +1,40 @@
 import {getCookie, setCookie} from "./utils.js";
-import {getRevPkmnName} from "./i18n.js";
 import {getPokemonFromId} from "./pokedex.js";
 
 function getTitle(streak) {
     if (streak < 3){
-        return "Novice Trainer"
+        return "Iron"
     }
     if (streak < 7){
-        return "Pokémon Trainer"
+        return "Bronze"
     }
     if (streak < 10){
-        return "Ace Trainer"
+        return "Silver"
     }
     if (streak < 15){
-        return "Pokémon Collector"
+        return "Gold"
     }
     if (streak < 25){
-        return "Pokemaniac"
+        return "Platinum"
     }
     if (streak < 35){
-        return "Pokémon Professor"
+        return "Diamond"
     }
     if (streak < 45){
-        return "Gym Leader"
+        return "Master"
     }
     if (streak < 60){
-        return "Elite Four"
+        return "Grandmaster"
     }
     if (streak < 75){
-        return "Pokémon Champion"
+        return "Challenger"
     }
-    return "Pokémon Master"
+    return "Little Legend"
 }
 
 export function showState(daily) {
     let enabled = getCookie("hintsenabled", false)
-    document.getElementById("toggleinfo").innerHTML = "📋 Pokémon Info " + (enabled == "0" ? "OFF" : "ON");
+    document.getElementById("toggleinfo").innerHTML = "📋 Champion Info " + (enabled == "0" ? "OFF" : "ON");
 
     let guesses = getCookie("guessesv2", daily)
     let attempts = getCookie("t_attempts", daily)
@@ -78,16 +77,7 @@ export function showState(daily) {
             window.getComputedStyle(rowElement).opacity;
             rowElement.className += ' in';
 
-            let guessedPoke = pokedex[getRevPkmnName(lastAttempt)]
-            let type1correct = guess.mosaic[1] == "1" | guess.mosaic[1] == "4"
-            let type2correct = guess.mosaic[2] == "1" | guess.mosaic[2] == "4"
 
-            let type1elem = document.getElementById("type_" + guessedPoke[1])
-            let type2elem = document.getElementById("type_" + guessedPoke[2])
-            type1elem.style.opacity = type1correct ? "1" : "0.12";
-            type1elem.style.borderStyle = type1correct ? "solid" : "none";
-            type2elem.style.opacity = type2correct ? "1" : "0.12";
-            type2elem.style.borderStyle = type2correct ? "solid" : "none";
         }
     }
 
@@ -100,7 +90,7 @@ export function showState(daily) {
         if (daily) {
             let streak = parseInt(getCookie("streak", false))
             let title = getTitle(streak)
-            document.getElementById("streak").innerHTML = "You've guessed <b>"+streak+" Pokémon</b> in a row!<br><b>Title: </b>"+title
+            document.getElementById("streak").innerHTML = "You've guessed <b>"+streak+" Champion</b> in a row!<br><b>Division: </b>"+title
         }
     }
     else if (guesses.length == attempts) {
@@ -110,7 +100,7 @@ export function showState(daily) {
         document.getElementById("lost").style.display = "block";
         if (daily) {
             setCookie("streak", 0, 300, false)
-            document.getElementById("streak").innerHTML = "Streak Reset!<br><b>Title:</b> Novice Trainer"
+            document.getElementById("streak").innerHTML = "Streak Reset!<br><b>Demoted to Iron</b>"
         }
     }
     document.getElementById("attempts").innerHTML = attempts - guesses.length

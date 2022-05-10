@@ -33,8 +33,7 @@ export function copyCurrentDay(day, names) {
   text = text.replace(/5/g, '🟥');
   text = text.replace(/6/g, '🟦');
 
-
-  text = "Squirdle " + dailyinfo + gnum + "/" + attempts + text
+  text = "TFTerdle " + dailyinfo + gnum + "/" + attempts + text
 
   let success = "Copied mosaic to clipboard!";
   if (window.clipboardData && window.clipboardData.setData) {
@@ -74,18 +73,17 @@ export function handleGuess(daily) {
   let secret = pokedex[secret_name]
 
   let gen = guess[0] == secret[0] ? "1" : guess[0] < secret[0] ? '2' : '3'
-  let t1 = guess[1] == secret[1] ? "1" : guess[1] == secret[2] ? '4' : '5'
-  let t2 = guess[2] == secret[2] ? "1" : guess[2] == secret[1] ? '4' : '5'
-  let h = guess[3] == secret[3] ? "1" : guess[3] < secret[3] ? '2' : '3'
-  let w = guess[4] == secret[4] ? "1" : guess[4] < secret[4] ? '2' : '3'
+  let t1 = guess[1] == secret[1] ? "1" : guess[1] == secret[2] ? '4' : guess[1] == secret[3] ? '4' : '5'
+  let t2 = guess[2] == secret[2] ? "1" : guess[2] == secret[1] ? '4' : guess[2] == secret[3] ? '4' : '5'
+  let t3 = guess[3] == secret[3] ? "1" : guess[3] == secret[1] ? '4' : guess[3] == secret[2] ? '4' : '5'
 
-  let pokeinfo = "<b>Gen:</b> " + guess[0] + "<br><b>Type 1:</b> " + guess[1] +
-    "<br><b>Type 2:</b> " + (guess[2] == "" ? "None" : guess[2]) +
-    "<br><b>Height:</b> " + guess[3] + "<br><b>Weight:</b> " + guess[4]
+  let pokeinfo = "<b>Gen:</b> " + guess[0] + "<br><b>Trait 1:</b> " + guess[1] +
+    "<br><b>Trait 2:</b> " + (guess[2] == "" ? "None" : guess[2]) +
+    "<br><b>Trait 3:</b> " + guess[3]
 
   let guess_info = {
-    "hints": [imgs[gen], imgs[t1], imgs[t2], imgs[h], imgs[w]],
-    "name": getIdFromPokemon(guess_name), "info": pokeinfo, "mosaic": gen + t1 + t2 + h + w
+    "hints": [imgs[gen], imgs[t1], imgs[t2], imgs[t3]],
+    "name": getIdFromPokemon(guess_name), "info": pokeinfo, "mosaic": gen + t1 + t2 + t3
   }
 
   let guesses = getCookie("guessesv2", daily)
@@ -105,49 +103,26 @@ export function handleGuess(daily) {
 
 export function toggleHints(daily) {
   let enabled = getCookie("hintsenabled", false)
-  let min = parseInt(getCookie("min_gene", daily))
-  let max = parseInt(getCookie("max_gene", daily))
 
   enabled = enabled == "0" ? "1" : "0"
   setCookie("hintsenabled", enabled)
-  document.getElementById("toggleinfo").innerHTML = "📋 Pokémon Info " + (enabled == "1" ? "ON" : "OFF");
+  document.getElementById("toggleinfo").innerHTML = "📋 Champion Info " + (enabled == "1" ? "ON" : "OFF");
 
-  let filterRes = getPokemon(min, max)
-  autocomplete(document.getElementById("guess"), filterRes[1]);
+  let filterRes = getPokemon()[1]
+  autocomplete(document.getElementById("guess"), filterRes);
 }
 
 export function newGame(isDaily) {
-  let mingen = isDaily ? 1 : parseInt(document.getElementById("mingen").value)
-  let maxgen = isDaily ? 8 : parseInt(document.getElementById("maxgen").value)
-
-  if (mingen > maxgen) {
-    [mingen, maxgen] = [maxgen, mingen]
-    document.getElementById("mingen").value = mingen
-    document.getElementById("maxgen").value = maxgen
-  }
-  let guessesMap = { 0: '5', 1: '5', 2: '6', 3: '6', 4: '7', 5: '7', 6: '8', 7: '8' }
-
-  let filterRes = isDaily ? [getIdFromPokemon(window.dailypoke), pokedex] : getPokemon(mingen, maxgen)
+  let filterRes = isDaily ? [getIdFromPokemon(window.dailypoke), pokedex] : getPokemon()
   setCookie('guessesv2', "", 30, isDaily)
   setCookie('secret_poke', filterRes[0], 30, isDaily)
-  setCookie('min_gene', mingen, 30, isDaily)
-  setCookie('max_gene', maxgen, 30, isDaily)
-  setCookie('t_attempts', guessesMap[maxgen - mingen], 30, isDaily)
+  setCookie('t_attempts', '6', 30, isDaily)
 
   autocomplete(document.getElementById("guess"), filterRes[1]);
 
   for (let x in [0, 1, 2, 3, 4, 5, 6, 7]) {
     const elem = document.getElementById('guess' + x) || false
     elem ? elem.remove() : false
-  }
-
-  let types2 = ["Set1", "Set2", "Set3", "Set35", "Set4", "Set45", "Set5", "Set55", "Set6", "Set65"]
-
-  for (let i = 0; i < types2.length; i++) {
-    let type = types2[i];
-    let typeb = document.getElementById("type_" + type)
-    typeb.style.opacity = "0.7"
-    typeb.style.borderStyle = "none"
   }
 
   document.getElementById("guessform").style.display = "block";

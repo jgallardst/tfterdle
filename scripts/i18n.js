@@ -20,29 +20,9 @@ export function setLanguage(lang, isDaily){
         const elem = document.getElementById('guess' + x) || false
         elem ? elem.remove() : false
     }
-    if (lang == "en" | lang == "") {
-        lang_map = ""
-        rev_map = ""
-        document.getElementById("guess").placeholder = "Who's that Champion?"
-        handleLoad(isDaily)
-    } else {
-        $.getJSON( "data/"+lang+".json", function( data ) {
-            lang_map = data
-            rev_map = {}
-            for(var prop in lang_map){
-                rev_map[lang_map[prop]] = prop
-            }
-            if (lang == "ja"){
-                document.getElementById("guess").placeholder = "秘密のポケモンは？"
-            }
-            else if (lang == "ko"){
-                document.getElementById("guess").placeholder = "포켓몬은?"
-            }
-            else if (lang == "fr"){
-                document.getElementById("guess").placeholder = "Quel est ce Pokemon?"
-            }
-            handleLoad(isDaily)
-        });
-    }
+    lang_map = ""
+    rev_map = ""
+    document.getElementById("guess").placeholder = "Who's that Champion?"
+    handleLoad(isDaily)
 }
 
